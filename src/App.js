@@ -1,11 +1,10 @@
-// import logo from "./logo.svg";
-import "./App.css";
-import { useEffect, useState } from "react";
+import "./index.css";
+import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import Auth from "./Auth";
 import Account from "./Account";
 
-function App() {
+export default function App() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -17,8 +16,9 @@ function App() {
       setSession(session);
     });
   }, []);
+
   return (
-    <div className="App">
+    <div className="container" style={{ padding: "50px 0 100px 0" }}>
       {!session ? (
         <Auth />
       ) : (
@@ -27,5 +27,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

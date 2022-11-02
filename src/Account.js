@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
 const Account = ({ session }) => {
@@ -9,7 +9,7 @@ const Account = ({ session }) => {
 
   useEffect(() => {
     getProfile();
-  });
+  }, [session]);
 
   const getProfile = async () => {
     try {
@@ -18,7 +18,7 @@ const Account = ({ session }) => {
 
       let { data, error, status } = await supabase
         .from("profiles")
-        .select("username,website,avatar_url")
+        .select(`username, website, avatar_url`)
         .eq("id", user.id)
         .single();
 
@@ -44,6 +44,7 @@ const Account = ({ session }) => {
     try {
       setLoading(true);
       const { user } = session;
+
       const updates = {
         id: user.id,
         username,
@@ -63,28 +64,44 @@ const Account = ({ session }) => {
       setLoading(false);
     }
   };
+
   return (
-    <div>
+    <div aria-live="polite">
       {loading ? (
-        "Saving..."
+        "Saving ..."
       ) : (
-        <form onSubmit={updateProfile}>
+        <form onSubmit={updateProfile} className="form-widget">
           <div>Email: {session.user.email}</div>
           <div>
-            <label>Name</label>
+            <label htmlFor="username">Name</label>
             <input
               id="username"
               type="text"
-              value={username || " "}
+              value={username || ""}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>
-            <button disabled={loading}>Update Profile</button>
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              type="url"
+              value={website || ""}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
+          <div>
+            <button className="button primary block" disabled={loading}>
+              Update profile
+            </button>
           </div>
         </form>
       )}
-      <button type="button" onClick={() => supabase.auth.signOut()}>
+      <button
+        type="button"
+        className="button block"
+        onClick={() => supabase.auth.signOut()}
+      >
         Sign Out
       </button>
     </div>
