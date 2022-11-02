@@ -9,7 +9,7 @@ const Account = ({ session }) => {
 
   useEffect(() => {
     getProfile();
-  }, [session]);
+  }, [session]); // eslint-disable-line no-use-before-define
 
   const getProfile = async () => {
     try {
