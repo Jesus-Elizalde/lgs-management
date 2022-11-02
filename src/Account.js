@@ -7,9 +7,10 @@ const Account = ({ session }) => {
   const [website, setWebsite] = useState(null);
   const [avatar_url, setAvatarUrl] = useState(null);
 
+  /* eslint-disable */
   useEffect(() => {
     getProfile();
-  }, [session]); // eslint-disable-line no-use-before-define
+  }, [session]);
 
   const getProfile = async () => {
     try {
