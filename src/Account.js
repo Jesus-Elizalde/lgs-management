@@ -9,7 +9,7 @@ const Account = ({ session }) => {
 
   useEffect(() => {
     getProfile();
-  }, [session]);
+  });
 
   const getProfile = async () => {
     try {
